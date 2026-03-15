@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PlayChess - #1 Online Chess for Kids!</title>
+<title>ChessKids - #1 Online Chess for Kids!</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -730,26 +730,27 @@ footer{background:#1a2a1a;color:rgba(255,255,255,.7);padding:60px 40px 30px}
   </a>
   <div class="nav-links">
     <div class="nav-dropdown">
-      <button class="nav-link active">🎮 Play ▾</button>
+      <button class="nav-link active" onclick="showPage('home')">🎮 Play ▾</button>
       <div class="dropdown-menu">
-        <button class="dropdown-item">⚡ Fast Chess</button>
-        <button class="dropdown-item">🐢 Slow Chess</button>
-        <button class="dropdown-item">🤖 Play vs Bot</button>
-        <button class="dropdown-item">👥 Play Friend</button>
+        <button class="dropdown-item" onclick="requireAuth(()=>{challengeTarget=null;selectedTimeControl='3+0';openChallengeModal(null)})"><span class="dropdown-item-icon">⚡</span>Fast Chess</button>
+        <button class="dropdown-item" onclick="requireAuth(()=>{challengeTarget=null;selectedTimeControl='10+0';openChallengeModal(null)})"><span class="dropdown-item-icon">🐢</span>Slow Chess</button>
+        <button class="dropdown-item" onclick="requireAuth(()=>{challengeTarget=null;openChallengeModal(null)})"><span class="dropdown-item-icon">🤖</span>Play vs Bot</button>
+        <button class="dropdown-item" onclick="requireAuth(()=>showPage('friends'))"><span class="dropdown-item-icon">👥</span>Play Friend</button>
       </div>
     </div>
     <div class="nav-dropdown">
-      <button class="nav-link">📚 Learn ▾</button>
+      <button class="nav-link" onclick="requireAuth(()=>showPage('learn'))">📚 Learn ▾</button>
       <div class="dropdown-menu">
-        <button class="dropdown-item">🎓 Lessons</button>
-        <button class="dropdown-item">🎬 Videos</button>
-        <button class="dropdown-item">💪 Workouts</button>
-        <button class="dropdown-item">🔤 Chess Terms</button>
+        <button class="dropdown-item" onclick="requireAuth(()=>showPage('lessons'))"><span class="dropdown-item-icon">🎓</span>Lessons</button>
+        <button class="dropdown-item" onclick="requireAuth(()=>showPage('videos'))"><span class="dropdown-item-icon">🎬</span>Videos</button>
+        <button class="dropdown-item" onclick="requireAuth(()=>showPage('workouts'))"><span class="dropdown-item-icon">💪</span>Workouts</button>
+        <button class="dropdown-item" onclick="requireAuth(()=>showPage('vision'))"><span class="dropdown-item-icon">👁️</span>Vision Trainer</button>
       </div>
     </div>
-    <button class="nav-link">🧩 Puzzles</button>
-    <button class="nav-link">🏆 Events</button>
+    <button class="nav-link" onclick="requireAuth(()=>showPage('puzzles'))">🧩 Puzzles</button>
+    <button class="nav-link" onclick="showPage('events')">🏆 Events</button>
     <button class="nav-link" id="nav-friends-btn" onclick="requireAuth(()=>showPage('friends'))">👥 Friends <span id="friend-req-badge" style="display:none;background:var(--red);color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;margin-left:2px"></span></button>
+    <button class="nav-link" onclick="showPage('leaderboard')">🏅 Leaderboard</button>
   </div>
   <div class="nav-actions" id="nav-actions">
     <!-- injected by JS -->
@@ -764,7 +765,7 @@ footer{background:#1a2a1a;color:rgba(255,255,255,.7);padding:60px 40px 30px}
     <p class="hero-sub">Join millions of kids playing chess online! Safe, free, and packed with lessons, puzzles, and tournaments.</p>
     <div class="hero-actions">
       <button class="btn btn-yellow btn-lg" onclick="requireAuth(null,'signup')">🚀 Play Now – It's Free!</button>
-      <button class="btn btn-lg" style="border:2.5px solid #fff;color:#fff;background:transparent">📚 Start Learning</button>
+      <button class="btn btn-lg" style="border:2.5px solid #fff;color:#fff;background:transparent" onclick="requireAuth(()=>showPage('lessons'))">📚 Start Learning</button>
     </div>
     <div class="hero-stats">
       <div class="hero-stat"><span class="hero-stat-num">10M+</span><span class="hero-stat-label">Kids Playing</span></div>
@@ -790,12 +791,12 @@ footer{background:#1a2a1a;color:rgba(255,255,255,.7);padding:60px 40px 30px}
     <p class="section-subtitle">Choose your game mode and start playing instantly!</p>
   </div>
   <div class="play-grid">
-    <div class="play-card"><div class="play-card-badge">⚡ Popular</div><span class="play-card-icon">⚡</span><h3>Fast Chess</h3><p>Play quick games against kids worldwide. Bullet, blitz, or rapid time controls.</p><button class="btn btn-green" onclick="requireAuth()">Play Fast Chess →</button></div>
-    <div class="play-card"><span class="play-card-icon">🐢</span><h3>Slow Chess</h3><p>Take your time! Correspondence-style games with days to make each move.</p><button class="btn btn-blue" onclick="requireAuth()">Play Slow Chess →</button></div>
+    <div class="play-card"><div class="play-card-badge">⚡ Popular</div><span class="play-card-icon">⚡</span><h3>Fast Chess</h3><p>Play quick games against kids worldwide. Bullet, blitz, or rapid time controls.</p><button class="btn btn-green" onclick="requireAuth(()=>{challengeTarget=null;selectedTimeControl='3+0';openChallengeModal(null)})">Play Fast Chess →</button></div>
+    <div class="play-card"><span class="play-card-icon">🐢</span><h3>Slow Chess</h3><p>Take your time! Correspondence-style games with days to make each move.</p><button class="btn btn-blue" onclick="requireAuth(()=>{challengeTarget=null;selectedTimeControl='10+0';openChallengeModal(null)})">Play Slow Chess →</button></div>
     <div class="play-card"><span class="play-card-icon">🤖</span><h3>Play vs Bot</h3><p>Practice against fun bots of all skill levels. Perfect for beginners and pros!</p><button class="btn btn-orange" onclick="requireAuth(()=>{challengeTarget=null;openChallengeModal(null)})">Play a Bot →</button></div>
     <div class="play-card"><span class="play-card-icon">👥</span><h3>Challenge a Friend</h3><p>Invite your friend and start a custom game with your own rules and time controls.</p><button class="btn btn-purple" onclick="requireAuth(()=>showPage('friends'))">Play Friend →</button></div>
-    <div class="play-card"><div class="play-card-badge">🔴 Live</div><span class="play-card-icon">🏆</span><h3>Tournaments</h3><p>Compete in live tournaments every week. Win trophies and prizes!</p><button class="btn btn-red" onclick="requireAuth()">Join Tournament →</button></div>
-    <div class="play-card"><span class="play-card-icon">📺</span><h3>Watch Live Games</h3><p>Spectate live games from around the world. Learn from watching other kids play!</p><button class="btn btn-outline">Watch Now →</button></div>
+    <div class="play-card"><div class="play-card-badge">🔴 Live</div><span class="play-card-icon">🏆</span><h3>Tournaments</h3><p>Compete in live tournaments every week. Win trophies and prizes!</p><button class="btn btn-red" onclick="showPage('events')">Join Tournament →</button></div>
+    <div class="play-card"><span class="play-card-icon">📺</span><h3>Watch Live Games</h3><p>Spectate live games from around the world. Learn from watching other kids play!</p><button class="btn btn-outline" onclick="showPage('leaderboard')">Watch Now →</button></div>
   </div>
 </section>
 
@@ -808,11 +809,11 @@ footer{background:#1a2a1a;color:rgba(255,255,255,.7);padding:60px 40px 30px}
   </div>
   <div class="learn-grid">
     <div class="learn-items">
-      <div class="learn-item"><div class="learn-item-icon" style="background:#e8f5e9">🎓</div><div class="learn-item-text"><h4>Structured Lessons</h4><p>Video-guided lessons organized by level. Complete activities to unlock new ranks from Pawn to King!</p></div></div>
-      <div class="learn-item"><div class="learn-item-icon" style="background:#e3f2fd">🎬</div><div class="learn-item-text"><h4>Video Library</h4><p>Hundreds of fun chess videos with FunMasterMike, GM Vishy Anand, and more personalities.</p></div></div>
-      <div class="learn-item"><div class="learn-item-icon" style="background:#fff3e0">💪</div><div class="learn-item-text"><h4>Workouts & Drills</h4><p>Practice key checkmate patterns and endgame tactics like 2-rook mate and more.</p></div></div>
-      <div class="learn-item"><div class="learn-item-icon" style="background:#f3e5f5">👁️</div><div class="learn-item-text"><h4>Vision Trainer</h4><p>Learn chess notation and improve your board vision. Race against the clock!</p></div></div>
-      <div class="learn-item"><div class="learn-item-icon" style="background:#fce4ec">📖</div><div class="learn-item-text"><h4>Chess Terms & Articles</h4><p>Explore our glossary of chess terms. Read articles about openings, tactics, and chess history.</p></div></div>
+      <div class="learn-item" onclick="requireAuth(()=>showPage('lessons'))" style="cursor:pointer"><div class="learn-item-icon" style="background:#e8f5e9">🎓</div><div class="learn-item-text"><h4>Structured Lessons</h4><p>Video-guided lessons organized by level. Complete activities to unlock new ranks from Pawn to King!</p></div></div>
+      <div class="learn-item" onclick="requireAuth(()=>showPage('videos'))" style="cursor:pointer"><div class="learn-item-icon" style="background:#e3f2fd">🎬</div><div class="learn-item-text"><h4>Video Library</h4><p>Hundreds of fun chess videos with FunMasterMike, GM Vishy Anand, and more personalities.</p></div></div>
+      <div class="learn-item" onclick="requireAuth(()=>showPage('workouts'))" style="cursor:pointer"><div class="learn-item-icon" style="background:#fff3e0">💪</div><div class="learn-item-text"><h4>Workouts & Drills</h4><p>Practice key checkmate patterns and endgame tactics like 2-rook mate and more.</p></div></div>
+      <div class="learn-item" onclick="requireAuth(()=>showPage('vision'))" style="cursor:pointer"><div class="learn-item-icon" style="background:#f3e5f5">👁️</div><div class="learn-item-text"><h4>Vision Trainer</h4><p>Learn chess notation and improve your board vision. Race against the clock!</p></div></div>
+      <div class="learn-item" onclick="requireAuth(()=>showPage('puzzles'))" style="cursor:pointer"><div class="learn-item-icon" style="background:#fce4ec">📖</div><div class="learn-item-text"><h4>Chess Terms & Puzzles</h4><p>Solve puzzles to sharpen your tactics. 800K+ puzzles from beginner to expert level.</p></div></div>
     </div>
     <div class="learn-visual">
       <div class="level-tracker">
@@ -825,7 +826,7 @@ footer{background:#1a2a1a;color:rgba(255,255,255,.7);padding:60px 40px 30px}
           <div class="level-item"><span class="level-icon">👸</span><span class="level-name">Queen</span><div class="level-bar-wrap"><div class="level-bar" style="width:12%"></div></div></div>
           <div class="level-item"><span class="level-icon">👑</span><span class="level-name">King</span><div class="level-bar-wrap"><div class="level-bar" style="width:0%"></div></div></div>
         </div>
-        <div style="margin-top:20px;text-align:center"><button class="btn btn-green" style="width:100%;justify-content:center" onclick="requireAuth()">🎓 Continue Learning →</button></div>
+        <div style="margin-top:20px;text-align:center"><button class="btn btn-green" style="width:100%;justify-content:center" onclick="requireAuth(()=>showPage('lessons'))">🎓 Continue Learning →</button></div>
       </div>
     </div>
   </div>
@@ -839,9 +840,9 @@ footer{background:#1a2a1a;color:rgba(255,255,255,.7);padding:60px 40px 30px}
     <p class="section-subtitle">Sharpen your tactics with over 800,000 hand-picked puzzles!</p>
   </div>
   <div class="puzzle-features">
-    <div class="puzzle-feature-card"><span class="icon">🧩</span><h3>Daily Puzzles</h3><p>Solve a new puzzle every day and build streaks. Track your puzzle rating as you improve!</p><button class="btn btn-yellow" onclick="requireAuth()">Solve Puzzles →</button></div>
-    <div class="puzzle-feature-card"><span class="icon">⚔️</span><h3>Puzzle Duel</h3><p>Race against another kid! Solve as many puzzles as you can in 2 minutes.</p><button class="btn btn-yellow" onclick="requireAuth()">Start a Duel →</button></div>
-    <div class="puzzle-feature-card"><span class="icon">🎯</span><h3>Puzzle Themes</h3><p>Practice specific tactics: pins, forks, skewers, discovered attacks, back-rank mates & more!</p><button class="btn btn-yellow" onclick="requireAuth()">Browse Themes →</button></div>
+    <div class="puzzle-feature-card"><span class="icon">🧩</span><h3>Daily Puzzles</h3><p>Solve a new puzzle every day and build streaks. Track your puzzle rating as you improve!</p><button class="btn btn-yellow" onclick="requireAuth(()=>showPage('puzzles'))">Solve Puzzles →</button></div>
+    <div class="puzzle-feature-card"><span class="icon">⚔️</span><h3>Puzzle Duel</h3><p>Race against another kid! Solve as many puzzles as you can in 2 minutes.</p><button class="btn btn-yellow" onclick="requireAuth(()=>showPage('puzzles'))">Start a Duel →</button></div>
+    <div class="puzzle-feature-card"><span class="icon">🎯</span><h3>Puzzle Themes</h3><p>Practice specific tactics: pins, forks, skewers, discovered attacks, back-rank mates & more!</p><button class="btn btn-yellow" onclick="requireAuth(()=>showPage('puzzles'))">Browse Themes →</button></div>
   </div>
   <div class="puzzle-stats">
     <div class="puzzle-stat"><span class="puzzle-stat-num">800K+</span><span class="puzzle-stat-label">Total Puzzles</span></div>
@@ -858,13 +859,13 @@ footer{background:#1a2a1a;color:rgba(255,255,255,.7);padding:60px 40px 30px}
     <p class="section-subtitle">From easiest to strongest — there's a bot for every level!</p>
   </div>
   <div class="bots-grid">
-    <div class="bot-card"><div class="bot-avatar" style="background:#e8f5e9">🐣<span class="bot-rating">200</span></div><div class="bot-name">Baby Bot</div><div class="bot-difficulty">Beginner</div><div class="difficulty-dots"><div class="dot filled"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
-    <div class="bot-card"><div class="bot-avatar" style="background:#fff3e0">🦊<span class="bot-rating">500</span></div><div class="bot-name">Foxy</div><div class="bot-difficulty">Easy</div><div class="difficulty-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
-    <div class="bot-card"><div class="bot-avatar" style="background:#e3f2fd">🧙‍♂️<span class="bot-rating">900</span></div><div class="bot-name">Wizard</div><div class="bot-difficulty">Intermediate</div><div class="difficulty-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div></div></div>
-    <div class="bot-card"><div class="bot-avatar" style="background:#fce4ec">🦁<span class="bot-rating">1300</span></div><div class="bot-name">Lion King</div><div class="bot-difficulty">Advanced</div><div class="difficulty-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div></div></div>
-    <div class="bot-card"><div class="bot-avatar" style="background:#f3e5f5">🏆<span class="bot-rating">1800</span></div><div class="bot-name">FunMasterMike</div><div class="bot-difficulty">Expert</div><div class="difficulty-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div></div></div>
+    <div class="bot-card" onclick="requireAuth(()=>{botDifficulty=1;challengeTarget=null;openChallengeModal(null)})" style="cursor:pointer"><div class="bot-avatar" style="background:#e8f5e9">🐣<span class="bot-rating">200</span></div><div class="bot-name">Baby Bot</div><div class="bot-difficulty">Beginner</div><div class="difficulty-dots"><div class="dot filled"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+    <div class="bot-card" onclick="requireAuth(()=>{botDifficulty=1;challengeTarget=null;openChallengeModal(null)})" style="cursor:pointer"><div class="bot-avatar" style="background:#fff3e0">🦊<span class="bot-rating">500</span></div><div class="bot-name">Foxy</div><div class="bot-difficulty">Easy</div><div class="difficulty-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+    <div class="bot-card" onclick="requireAuth(()=>{botDifficulty=2;challengeTarget=null;openChallengeModal(null)})" style="cursor:pointer"><div class="bot-avatar" style="background:#e3f2fd">🧙‍♂️<span class="bot-rating">900</span></div><div class="bot-name">Wizard</div><div class="bot-difficulty">Intermediate</div><div class="difficulty-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div></div></div>
+    <div class="bot-card" onclick="requireAuth(()=>{botDifficulty=3;challengeTarget=null;openChallengeModal(null)})" style="cursor:pointer"><div class="bot-avatar" style="background:#fce4ec">🦁<span class="bot-rating">1300</span></div><div class="bot-name">Lion King</div><div class="bot-difficulty">Advanced</div><div class="difficulty-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div></div></div>
+    <div class="bot-card" onclick="requireAuth(()=>{botDifficulty=3;challengeTarget=null;openChallengeModal(null)})" style="cursor:pointer"><div class="bot-avatar" style="background:#f3e5f5">🏆<span class="bot-rating">1800</span></div><div class="bot-name">FunMasterMike</div><div class="bot-difficulty">Expert</div><div class="difficulty-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div></div></div>
   </div>
-  <div style="text-align:center"><button class="btn btn-orange btn-lg" onclick="requireAuth()">🤖 See All Bots →</button></div>
+  <div style="text-align:center"><button class="btn btn-orange btn-lg" onclick="requireAuth(()=>{challengeTarget=null;openChallengeModal(null)})">🤖 Play a Bot Now →</button></div>
 </section>
 
 <!-- Events -->
@@ -879,7 +880,7 @@ footer{background:#1a2a1a;color:rgba(255,255,255,.7);padding:60px 40px 30px}
     <div class="event-card"><div class="event-date-badge">📅 Monthly</div><h3>Monthly Championship</h3><p>Compete in our monthly championship for a chance to win trophies, prizes, and get featured!</p><div class="event-meta"><span>🏅 Prizes</span><span>📺 Streamed live</span><span>⭐ All ages</span></div></div>
     <div class="event-card"><div class="event-date-badge">📅 Upcoming</div><h3>National Festival</h3><p>The biggest chess celebration of the year! Tournaments, bughouse, blitz, and meet top masters.</p><div class="event-meta"><span>🗺️ In-person</span><span>🎉 K-8</span><span>🌟 Special guests</span></div></div>
   </div>
-  <div style="text-align:center;margin-top:36px"><button class="btn btn-yellow btn-lg" onclick="requireAuth()">📅 View All Events →</button></div>
+  <div style="text-align:center;margin-top:36px"><button class="btn btn-yellow btn-lg" onclick="showPage('events')">📅 View All Events →</button></div>
 </section>
 
 <!-- Community -->
@@ -901,7 +902,7 @@ footer{background:#1a2a1a;color:rgba(255,255,255,.7);padding:60px 40px 30px}
       <h3>Connect with 10 Million ChessKids!</h3>
       <p>Add friends, join clubs, challenge classmates, and grow together as chess players!</p>
       <button class="btn btn-green btn-lg" style="margin-bottom:14px" onclick="requireAuth(()=>showPage('friends'))">👥 Find Friends →</button><br>
-      <button class="btn btn-outline" style="margin-top:10px" onclick="requireAuth()">🏘️ Browse Clubs</button>
+      <button class="btn btn-outline" style="margin-top:10px" onclick="showPage('leaderboard')">🏅 Leaderboard</button>
     </div>
   </div>
 </section>
@@ -915,8 +916,8 @@ footer{background:#1a2a1a;color:rgba(255,255,255,.7);padding:60px 40px 30px}
   </div>
   <div class="pricing-grid">
     <div class="price-card"><span class="price-card-icon">🐣</span><h3>Free</h3><p class="price-card-desc">Everything you need to start!</p><div class="price-amount"><span>$</span>0</div><div class="price-period">forever free</div><ul class="price-features"><li>Unlimited chess games</li><li>Basic puzzles</li><li>Play vs bots (10)</li><li>Join clubs & friends</li><li>Basic lessons</li><li class="no">Puzzle themes & analytics</li><li class="no">Game review & analysis</li><li class="no">All 50+ bots</li></ul><button class="btn btn-outline btn-full" onclick="requireAuth(null,'signup')">Get Started →</button></div>
-    <div class="price-card popular"><div class="popular-badge">⭐ Most Popular</div><span class="price-card-icon">🥇</span><h3>Gold</h3><p class="price-card-desc">The full ChessKid experience!</p><div class="price-amount"><span>$</span>5</div><div class="price-period">per month, billed yearly</div><ul class="price-features"><li>Everything in Free</li><li>All 800K+ puzzles</li><li>30+ puzzle themes</li><li>Game review & analysis</li><li>All 50+ chess bots</li><li>Full lesson curriculum</li><li>All video library</li><li>Unlimited workouts</li></ul><button class="btn btn-green btn-full" onclick="requireAuth()">🚀 Upgrade to Gold →</button></div>
-    <div class="price-card"><span class="price-card-icon">👩‍🏫</span><h3>Teacher</h3><p class="price-card-desc">Tools for educators & coaches!</p><div class="price-amount" style="font-size:28px;margin-top:10px">Contact Us</div><div class="price-period">school & club pricing</div><ul class="price-features"><li>Everything in Gold</li><li>Classroom management</li><li>Student tracking</li><li>Classroom planner</li><li>Live lesson platform</li><li>Custom tournaments</li><li>Priority support</li></ul><button class="btn btn-blue btn-full">✉️ Contact Us →</button></div>
+    <div class="price-card popular"><div class="popular-badge">⭐ Most Popular</div><span class="price-card-icon">🥇</span><h3>Gold</h3><p class="price-card-desc">The full ChessKid experience!</p><div class="price-amount"><span>$</span>5</div><div class="price-period">per month, billed yearly</div><ul class="price-features"><li>Everything in Free</li><li>All 800K+ puzzles</li><li>30+ puzzle themes</li><li>Game review & analysis</li><li>All 50+ chess bots</li><li>Full lesson curriculum</li><li>All video library</li><li>Unlimited workouts</li></ul><button class="btn btn-green btn-full" onclick="toast('Gold upgrade coming soon! 🏆','info')">🚀 Upgrade to Gold →</button></div>
+    <div class="price-card"><span class="price-card-icon">👩‍🏫</span><h3>Teacher</h3><p class="price-card-desc">Tools for educators & coaches!</p><div class="price-amount" style="font-size:28px;margin-top:10px">Contact Us</div><div class="price-period">school & club pricing</div><ul class="price-features"><li>Everything in Gold</li><li>Classroom management</li><li>Student tracking</li><li>Classroom planner</li><li>Live lesson platform</li><li>Custom tournaments</li><li>Priority support</li></ul><button class="btn btn-blue btn-full" onclick="toast('Contact us at hello@chesskids.com 📧','info')">✉️ Contact Us →</button></div>
   </div>
 </section>
 
@@ -940,7 +941,7 @@ footer{background:#1a2a1a;color:rgba(255,255,255,.7);padding:60px 40px 30px}
   <p>Join over 10 million kids learning and playing chess for free!</p>
   <div class="cta-actions">
     <button class="btn btn-yellow btn-lg" onclick="requireAuth(null,'signup')">🚀 Create Free Account</button>
-    <button class="btn btn-lg" style="border:2.5px solid #fff;color:#fff;background:transparent">▶️ Play as Guest</button>
+    <button class="btn btn-lg" style="border:2.5px solid #fff;color:#fff;background:transparent" onclick="requireAuth(()=>{challengeTarget=null;openChallengeModal(null)})">▶️ Play as Guest</button>
   </div>
 </div>
 
@@ -957,10 +958,10 @@ footer{background:#1a2a1a;color:rgba(255,255,255,.7);padding:60px 40px 30px}
         <a href="#" class="social-btn">▶️</a>
       </div>
     </div>
-    <div class="footer-col"><h5>Play</h5><ul><li><a href="#">Fast Chess</a></li><li><a href="#">Slow Chess</a></li><li><a href="#">Play vs Bot</a></li><li><a href="#">Tournaments</a></li></ul></div>
-    <div class="footer-col"><h5>Learn</h5><ul><li><a href="#">Lessons</a></li><li><a href="#">Puzzles</a></li><li><a href="#">Videos</a></li><li><a href="#">Workouts</a></li></ul></div>
-    <div class="footer-col"><h5>Community</h5><ul><li><a href="#" onclick="requireAuth(()=>showPage('friends'))">Friends</a></li><li><a href="#">Clubs</a></li><li><a href="#">Events</a></li><li><a href="#">Leaderboard</a></li></ul></div>
-    <div class="footer-col"><h5>Support</h5><ul><li><a href="#">Help Center</a></li><li><a href="#">Safety</a></li><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li></ul></div>
+    <div class="footer-col"><h5>Play</h5><ul><li><a href="#" onclick="requireAuth(()=>{challengeTarget=null;selectedTimeControl='3+0';openChallengeModal(null)})">Fast Chess</a></li><li><a href="#" onclick="requireAuth(()=>{challengeTarget=null;selectedTimeControl='10+0';openChallengeModal(null)})">Slow Chess</a></li><li><a href="#" onclick="requireAuth(()=>{challengeTarget=null;openChallengeModal(null)})">Play vs Bot</a></li><li><a href="#" onclick="showPage('events')">Tournaments</a></li></ul></div>
+    <div class="footer-col"><h5>Learn</h5><ul><li><a href="#" onclick="requireAuth(()=>showPage('lessons'))">Lessons</a></li><li><a href="#" onclick="requireAuth(()=>showPage('puzzles'))">Puzzles</a></li><li><a href="#" onclick="requireAuth(()=>showPage('videos'))">Videos</a></li><li><a href="#" onclick="requireAuth(()=>showPage('workouts'))">Workouts</a></li></ul></div>
+    <div class="footer-col"><h5>Community</h5><ul><li><a href="#" onclick="requireAuth(()=>showPage('friends'))">Friends</a></li><li><a href="#" onclick="showPage('leaderboard')">Leaderboard</a></li><li><a href="#" onclick="showPage('events')">Events</a></li><li><a href="#" onclick="requireAuth(()=>showPage('profile'))">My Profile</a></li></ul></div>
+    <div class="footer-col"><h5>Support</h5><ul><li><a href="#" onclick="toast('Help Center coming soon! 📚','info')">Help Center</a></li><li><a href="#" onclick="toast('ChessKids is 100% safe for kids 🛡️','info')">Safety</a></li><li><a href="#" onclick="toast('Privacy Policy: We never share your data 🔒','info')">Privacy</a></li><li><a href="#" onclick="toast('Contact us at hello@chesskids.com 📧','info')">Contact</a></li></ul></div>
   </div>
   <div class="footer-bottom">
     <span>© 2025 ChessKids. Made with ♟️ for kids everywhere.</span>
@@ -968,6 +969,97 @@ footer{background:#1a2a1a;color:rgba(255,255,255,.7);padding:60px 40px 30px}
   </div>
 </footer>
 </div><!-- /page-home -->
+
+<!-- ── LEARN PAGE ── -->
+<div id="page-learn" class="page">
+  <nav style="background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.08);position:sticky;top:0;z-index:100;padding:0 24px;display:flex;align-items:center;height:64px;gap:12px">
+    <button onclick="showPage('home')" class="nav-link">← Home</button>
+    <span style="font-family:'Fredoka One',cursive;font-size:22px;color:var(--green-dark)">📚 Learn Chess</span>
+    <div style="flex:1"></div><div id="learn-nav-user"></div>
+  </nav>
+  <div style="max-width:1000px;margin:0 auto;padding:40px 24px">
+    <div class="section-header"><div class="section-tag">📚 Learn</div><h2 class="section-title">Your Chess Learning Hub</h2><p class="section-subtitle">Pick what you want to learn today!</p></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+      <div class="play-card" onclick="showPage('lessons')" style="cursor:pointer"><span class="play-card-icon">🎓</span><h3>Lessons</h3><p>Structured video lessons organized by level from Pawn to King.</p><span class="btn btn-green">Start Learning →</span></div>
+      <div class="play-card" onclick="showPage('videos')" style="cursor:pointer"><span class="play-card-icon">🎬</span><h3>Videos</h3><p>Watch hundreds of chess videos with top players and educators.</p><span class="btn btn-blue">Watch Videos →</span></div>
+      <div class="play-card" onclick="showPage('workouts')" style="cursor:pointer"><span class="play-card-icon">💪</span><h3>Workouts</h3><p>Practice checkmate patterns and endgame tactics with drills.</p><span class="btn btn-orange">Do Workouts →</span></div>
+      <div class="play-card" onclick="showPage('puzzles')" style="cursor:pointer"><span class="play-card-icon">🧩</span><h3>Puzzles</h3><p>Solve 800K+ tactical puzzles to sharpen your chess thinking.</p><span class="btn btn-purple">Solve Puzzles →</span></div>
+      <div class="play-card" onclick="showPage('vision')" style="cursor:pointer"><span class="play-card-icon">👁️</span><h3>Vision Trainer</h3><p>Learn chess notation and improve your board awareness.</p><span class="btn btn-red">Train Vision →</span></div>
+      <div class="play-card" onclick="requireAuth(()=>{challengeTarget=null;openChallengeModal(null)})" style="cursor:pointer"><span class="play-card-icon">♟️</span><h3>Practice Game</h3><p>Put your learning to use with a real game against a bot.</p><span class="btn btn-green">Play Now →</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── LESSONS PAGE ── -->
+<div id="page-lessons" class="page">
+  <nav style="background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.08);position:sticky;top:0;z-index:100;padding:0 24px;display:flex;align-items:center;height:64px;gap:12px">
+    <button onclick="showPage('learn')" class="nav-link">← Learn</button>
+    <span style="font-family:'Fredoka One',cursive;font-size:22px;color:var(--green-dark)">🎓 Lessons</span>
+    <div style="flex:1"></div>
+  </nav>
+  <div style="max-width:900px;margin:0 auto;padding:40px 24px" id="lessons-content"></div>
+</div>
+
+<!-- ── VIDEOS PAGE ── -->
+<div id="page-videos" class="page">
+  <nav style="background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.08);position:sticky;top:0;z-index:100;padding:0 24px;display:flex;align-items:center;height:64px;gap:12px">
+    <button onclick="showPage('learn')" class="nav-link">← Learn</button>
+    <span style="font-family:'Fredoka One',cursive;font-size:22px;color:var(--green-dark)">🎬 Videos</span>
+    <div style="flex:1"></div>
+  </nav>
+  <div style="max-width:900px;margin:0 auto;padding:40px 24px" id="videos-content"></div>
+</div>
+
+<!-- ── WORKOUTS PAGE ── -->
+<div id="page-workouts" class="page">
+  <nav style="background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.08);position:sticky;top:0;z-index:100;padding:0 24px;display:flex;align-items:center;height:64px;gap:12px">
+    <button onclick="showPage('learn')" class="nav-link">← Learn</button>
+    <span style="font-family:'Fredoka One',cursive;font-size:22px;color:var(--green-dark)">💪 Workouts</span>
+    <div style="flex:1"></div>
+  </nav>
+  <div style="max-width:900px;margin:0 auto;padding:40px 24px" id="workouts-content"></div>
+</div>
+
+<!-- ── VISION PAGE ── -->
+<div id="page-vision" class="page">
+  <nav style="background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.08);position:sticky;top:0;z-index:100;padding:0 24px;display:flex;align-items:center;height:64px;gap:12px">
+    <button onclick="showPage('learn')" class="nav-link">← Learn</button>
+    <span style="font-family:'Fredoka One',cursive;font-size:22px;color:var(--green-dark)">👁️ Vision Trainer</span>
+    <div style="flex:1"></div>
+  </nav>
+  <div style="max-width:700px;margin:0 auto;padding:40px 24px" id="vision-content"></div>
+</div>
+
+<!-- ── PUZZLES PAGE ── -->
+<div id="page-puzzles" class="page">
+  <nav style="background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.08);position:sticky;top:0;z-index:100;padding:0 24px;display:flex;align-items:center;height:64px;gap:12px">
+    <button onclick="showPage('home')" class="nav-link">← Home</button>
+    <span style="font-family:'Fredoka One',cursive;font-size:22px;color:var(--green-dark)">🧩 Puzzles</span>
+    <div style="flex:1"></div>
+    <div id="puzzles-streak" style="font-weight:800;color:var(--orange)"></div>
+  </nav>
+  <div style="max-width:800px;margin:0 auto;padding:30px 24px" id="puzzles-content"></div>
+</div>
+
+<!-- ── EVENTS PAGE ── -->
+<div id="page-events" class="page">
+  <nav style="background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.08);position:sticky;top:0;z-index:100;padding:0 24px;display:flex;align-items:center;height:64px;gap:12px">
+    <button onclick="showPage('home')" class="nav-link">← Home</button>
+    <span style="font-family:'Fredoka One',cursive;font-size:22px;color:var(--green-dark)">🏆 Events</span>
+    <div style="flex:1"></div>
+  </nav>
+  <div style="max-width:1000px;margin:0 auto;padding:40px 24px" id="events-content"></div>
+</div>
+
+<!-- ── LEADERBOARD PAGE ── -->
+<div id="page-leaderboard" class="page">
+  <nav style="background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.08);position:sticky;top:0;z-index:100;padding:0 24px;display:flex;align-items:center;height:64px;gap:12px">
+    <button onclick="showPage('home')" class="nav-link">← Home</button>
+    <span style="font-family:'Fredoka One',cursive;font-size:22px;color:var(--green-dark)">🏅 Leaderboard</span>
+    <div style="flex:1"></div>
+  </nav>
+  <div style="max-width:700px;margin:0 auto;padding:40px 24px" id="leaderboard-content"></div>
+</div>
 
 <!-- ── FRIEND PROFILE MODAL ── -->
 <div class="overlay" id="friendProfileOverlay">
@@ -1476,9 +1568,311 @@ function showPage(name){
   if(name==='friends') renderFriendsPage();
   if(name==='profile') renderProfilePage();
   if(name==='home') renderNav();
+  if(name==='lessons') renderLessons();
+  if(name==='videos') renderVideos();
+  if(name==='workouts') renderWorkouts();
+  if(name==='vision') renderVision();
+  if(name==='puzzles') renderPuzzles();
+  if(name==='events') renderEvents();
+  if(name==='leaderboard') renderLeaderboard();
 }
 
-// ── FRIENDS PAGE ─────────────────────────────
+// ── LESSONS ──────────────────────────────────
+const LESSONS_DATA=[
+  {id:1,title:'How Pieces Move',icon:'♟️',level:'Pawn',desc:'Learn how every chess piece moves on the board.',xp:50,done:true},
+  {id:2,title:'Check & Checkmate',icon:'👑',level:'Pawn',desc:'Understand the goal of chess — capturing the king!',xp:75,done:true},
+  {id:3,title:'Special Moves',icon:'🏰',level:'Knight',desc:'En passant, castling, and pawn promotion explained.',xp:100,done:true},
+  {id:4,title:'Basic Tactics',icon:'⚔️',level:'Knight',desc:'Learn forks, pins, and skewers to win material.',xp:150,done:false},
+  {id:5,title:'Opening Principles',icon:'🚀',level:'Bishop',desc:'Control the center, develop pieces, protect your king.',xp:150,done:false},
+  {id:6,title:'Checkmate Patterns',icon:'🎯',level:'Bishop',desc:'Scholar\'s mate, back-rank mate, and more!',xp:200,done:false},
+  {id:7,title:'Endgame Basics',icon:'🏁',level:'Rook',desc:'King & pawn endgames, rook endings, opposition.',xp:250,done:false},
+  {id:8,title:'Intermediate Tactics',icon:'💡',level:'Queen',desc:'Discovered attacks, zwischenzug, tempo play.',xp:300,done:false},
+];
+function renderLessons(){
+  const c=document.getElementById('lessons-content');if(!c)return;
+  c.innerHTML=`
+    <div class="section-header"><div class="section-tag">🎓 Lessons</div><h2 class="section-title">Learn Step by Step</h2><p class="section-subtitle">Complete lessons to level up from Pawn to King!</p></div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      ${LESSONS_DATA.map(l=>`
+        <div style="display:flex;align-items:center;gap:16px;background:#fff;border-radius:16px;padding:18px 22px;box-shadow:var(--shadow);cursor:pointer;transition:transform .2s;border-left:5px solid ${l.done?'var(--green)':'#e0e0e0'}"
+          onclick="${l.done?`toast('Lesson already completed! ✅ Try the next one.','info')`:`toast('Starting: ${l.title}! 🎓','info')`}" onmouseover="this.style.transform='translateX(6px)'" onmouseout="this.style.transform=''">
+          <div style="font-size:36px;width:48px;text-align:center">${l.icon}</div>
+          <div style="flex:1">
+            <div style="font-weight:800;font-size:16px;margin-bottom:3px">${l.title}</div>
+            <div style="font-size:13px;color:var(--text-light);font-weight:600">${l.desc}</div>
+            <div style="font-size:11px;font-weight:800;color:var(--text-light);margin-top:4px">Level: ${l.level} • +${l.xp} XP</div>
+          </div>
+          <div style="text-align:center;min-width:80px">
+            ${l.done
+              ?`<span style="background:#e8f5e9;color:var(--green-dark);border-radius:50px;padding:6px 14px;font-size:12px;font-weight:800">✅ Done</span>`
+              :`<button class="btn btn-green btn-sm" onclick="event.stopPropagation();toast('Starting: ${l.title}! 🎓','info')">Start →</button>`}
+          </div>
+        </div>`).join('')}
+    </div>`;
+}
+
+// ── VIDEOS ───────────────────────────────────
+const VIDEOS_DATA=[
+  {id:1,title:'Chess Basics for Beginners',host:'FunMasterMike',icon:'🎬',duration:'12 min',views:'2.4M',thumb:'🏫'},
+  {id:2,title:'The Best Opening for Beginners',host:'FunMasterMike',icon:'🎬',duration:'18 min',views:'1.8M',thumb:'🚀'},
+  {id:3,title:'How to Win in 4 Moves',host:'GM Vishy Anand',icon:'🎬',duration:'8 min',views:'3.1M',thumb:'⚡'},
+  {id:4,title:'Top 10 Chess Tactics',host:'Alexandra Botez',icon:'🎬',duration:'24 min',views:'980K',thumb:'🎯'},
+  {id:5,title:'Endgame Essentials',host:'GM Vishy Anand',icon:'🎬',duration:'32 min',views:'654K',thumb:'🏁'},
+  {id:6,title:'How to Checkmate with Rook+King',host:'FunMasterMike',icon:'🎬',duration:'15 min',views:'1.2M',thumb:'🗼'},
+];
+function renderVideos(){
+  const c=document.getElementById('videos-content');if(!c)return;
+  c.innerHTML=`
+    <div class="section-header"><div class="section-tag">🎬 Videos</div><h2 class="section-title">Watch & Learn</h2><p class="section-subtitle">Hundreds of chess videos from top players and coaches!</p></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+      ${VIDEOS_DATA.map(v=>`
+        <div style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer;transition:transform .2s" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform=''" onclick="toast('Playing: ${v.title} 🎬','info')">
+          <div style="background:linear-gradient(135deg,#1a2e1a,#2e7d32);height:120px;display:flex;align-items:center;justify-content:center;font-size:52px;position:relative">
+            ${v.thumb}
+            <div style="position:absolute;bottom:8px;right:10px;background:rgba(0,0,0,.8);color:#fff;border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700">${v.duration}</div>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0">
+              <div style="width:48px;height:48px;background:rgba(76,175,80,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px">▶️</div>
+            </div>
+          </div>
+          <div style="padding:14px 16px">
+            <div style="font-weight:800;font-size:14px;margin-bottom:4px">${v.title}</div>
+            <div style="font-size:12px;color:var(--text-light);font-weight:600">👤 ${v.host} • 👁️ ${v.views}</div>
+          </div>
+        </div>`).join('')}
+    </div>`;
+}
+
+// ── WORKOUTS ─────────────────────────────────
+const WORKOUTS_DATA=[
+  {name:'2 Rook Checkmate',icon:'🗼',type:'Endgame',difficulty:'Beginner',count:10},
+  {name:'Back Rank Mate',icon:'🎯',type:'Tactics',difficulty:'Beginner',count:15},
+  {name:'Scholar\'s Mate Defense',icon:'🛡️',type:'Opening',difficulty:'Beginner',count:8},
+  {name:'Knight Fork Drills',icon:'🐴',type:'Tactics',difficulty:'Intermediate',count:20},
+  {name:'King & Pawn Endgame',icon:'♟️',type:'Endgame',difficulty:'Intermediate',count:12},
+  {name:'Pin & Skewer Combos',icon:'📌',type:'Tactics',difficulty:'Advanced',count:25},
+];
+function renderWorkouts(){
+  const c=document.getElementById('workouts-content');if(!c)return;
+  c.innerHTML=`
+    <div class="section-header"><div class="section-tag">💪 Workouts</div><h2 class="section-title">Train Like a Champion</h2><p class="section-subtitle">Focused drills to master specific chess skills!</p></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+      ${WORKOUTS_DATA.map(w=>`
+        <div style="background:#fff;border-radius:16px;padding:22px;box-shadow:var(--shadow);cursor:pointer;transition:transform .2s;display:flex;gap:16px;align-items:center" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform=''" onclick="toast('Starting workout: ${w.name}! 💪','info')">
+          <div style="font-size:44px;line-height:1">${w.icon}</div>
+          <div style="flex:1">
+            <div style="font-weight:800;font-size:15px;margin-bottom:4px">${w.name}</div>
+            <div style="font-size:12px;color:var(--text-light);font-weight:600">${w.type} • ${w.difficulty}</div>
+            <div style="font-size:11px;font-weight:800;color:var(--green-dark);margin-top:6px">${w.count} exercises</div>
+          </div>
+          <button class="btn btn-green btn-sm" onclick="event.stopPropagation();toast('Starting: ${w.name}! 💪','info')">Start</button>
+        </div>`).join('')}
+    </div>`;
+}
+
+// ── VISION TRAINER ───────────────────────────
+let visionScore=0,visionStreak=0,visionTimer=null,visionActive=false;
+const SQUARES=[];for(let r=0;r<8;r++)for(let c=0;c<8;c++)SQUARES.push(FILES[c]+(8-r));
+function renderVision(){
+  const c=document.getElementById('vision-content');if(!c)return;
+  visionScore=0;visionStreak=0;visionActive=false;
+  c.innerHTML=`
+    <div class="section-header"><div class="section-tag">👁️ Vision Trainer</div><h2 class="section-title">Chess Board Vision</h2><p class="section-subtitle">Identify squares as fast as you can! Click the correct square.</p></div>
+    <div style="background:#fff;border-radius:20px;padding:28px;box-shadow:var(--shadow);text-align:center;margin-bottom:20px">
+      <div style="font-size:52px;font-weight:900;color:var(--green-dark);font-family:'Fredoka One',cursive;letter-spacing:4px;margin-bottom:12px" id="vision-target">Press Start!</div>
+      <div style="display:flex;gap:20px;justify-content:center;margin-bottom:20px">
+        <div><div style="font-family:'Fredoka One',cursive;font-size:28px;color:var(--orange)" id="vision-score-disp">0</div><div style="font-size:12px;font-weight:700;color:var(--text-light)">Score</div></div>
+        <div><div style="font-family:'Fredoka One',cursive;font-size:28px;color:var(--green-dark)" id="vision-streak-disp">0🔥</div><div style="font-size:12px;font-weight:700;color:var(--text-light)">Streak</div></div>
+        <div><div style="font-family:'Fredoka One',cursive;font-size:28px;color:var(--blue)" id="vision-time-disp">60</div><div style="font-size:12px;font-weight:700;color:var(--text-light)">Seconds</div></div>
+      </div>
+      <button id="vision-start-btn" class="btn btn-green btn-lg" onclick="startVisionGame()">🚀 Start!</button>
+    </div>
+    <div id="vision-board-wrap" style="display:none">
+      <div id="vision-board" style="display:grid;grid-template-columns:repeat(8,1fr);max-width:480px;margin:0 auto;border:3px solid #8B6914;border-radius:6px;overflow:hidden"></div>
+    </div>
+    <div id="vision-feedback" style="text-align:center;margin-top:16px;font-weight:800;font-size:18px;min-height:28px"></div>`;
+}
+function startVisionGame(){
+  visionScore=0;visionStreak=0;visionActive=true;
+  let timeLeft=60;
+  document.getElementById('vision-start-btn').style.display='none';
+  document.getElementById('vision-board-wrap').style.display='block';
+  buildVisionBoard();
+  nextVisionQuestion();
+  clearInterval(visionTimer);
+  visionTimer=setInterval(()=>{
+    timeLeft--;
+    const td=document.getElementById('vision-time-disp');
+    if(td)td.textContent=timeLeft;
+    if(timeLeft<=0){
+      clearInterval(visionTimer);visionActive=false;
+      const fb=document.getElementById('vision-feedback');
+      if(fb)fb.innerHTML=`<span style="color:var(--green-dark)">⏱ Time's up! Final score: <b>${visionScore}</b> 🎉</span>`;
+      document.getElementById('vision-board-wrap').style.display='none';
+      document.getElementById('vision-start-btn').style.display='inline-flex';
+      document.getElementById('vision-start-btn').textContent='🔄 Play Again!';
+      if(DB.currentUser()){const u=DB.currentUser();u.puzzlesSolved=(u.puzzlesSolved||0)+Math.floor(visionScore/2);DB.saveUser(u);}
+    }
+  },1000);
+}
+let visionTarget='';
+function nextVisionQuestion(){
+  visionTarget=SQUARES[Math.floor(Math.random()*64)];
+  const t=document.getElementById('vision-target');
+  if(t)t.textContent=visionTarget;
+}
+function buildVisionBoard(){
+  const b=document.getElementById('vision-board');if(!b)return;
+  b.innerHTML='';
+  for(let ri=0;ri<8;ri++)for(let ci=0;ci<8;ci++){
+    const sq=SQUARES[ri*8+ci];
+    const isLight=(ri+ci)%2===0;
+    const d=document.createElement('div');
+    d.style.cssText=`aspect-ratio:1;background:${isLight?'#F0D9B5':'#B58863'};display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:10px;font-weight:800;color:${isLight?'rgba(0,0,0,.3)':'rgba(255,255,255,.3)'};transition:filter .1s`;
+    d.textContent=sq;
+    d.onmouseover=()=>d.style.filter='brightness(1.15)';
+    d.onmouseout=()=>d.style.filter='';
+    d.onclick=()=>checkVisionAnswer(sq,d);
+    b.appendChild(d);
+  }
+}
+function checkVisionAnswer(sq,el){
+  if(!visionActive)return;
+  const fb=document.getElementById('vision-feedback');
+  if(sq===visionTarget){
+    visionScore++;visionStreak++;
+    el.style.background='#4CAF50';
+    if(fb)fb.innerHTML=`<span style="color:var(--green-dark)">✅ Correct! +1 (Streak: ${visionStreak}🔥)</span>`;
+  } else {
+    visionStreak=0;
+    el.style.background='#ef5350';
+    if(fb)fb.innerHTML=`<span style="color:var(--red)">❌ Wrong! It was <b>${visionTarget}</b></span>`;
+  }
+  document.getElementById('vision-score-disp').textContent=visionScore;
+  document.getElementById('vision-streak-disp').textContent=visionStreak+'🔥';
+  setTimeout(()=>{buildVisionBoard();nextVisionQuestion();},400);
+}
+
+// ── PUZZLES PAGE ─────────────────────────────
+const PUZZLE_POSITIONS=[
+  {fen:'mate1',title:'Mate in 1 — Back Rank',desc:'White to move. Find the checkmate!',hint:'The rook can deliver checkmate on the back rank.',answer:'Ra8#',icon:'♜',theme:'Back Rank Mate'},
+  {fen:'fork1',title:'Knight Fork',desc:'White to move. Win material with a fork!',hint:'The knight can attack two pieces at once.',answer:'Nc7+',icon:'♞',theme:'Knight Fork'},
+  {fen:'pin1',title:'Absolute Pin',desc:'White to move. Exploit the pin to win!',hint:'The pinned piece cannot move.',answer:'Rxd5',icon:'♕',theme:'Pin'},
+  {fen:'skewer1',title:'Skewer Attack',desc:'White to move. Use a skewer to gain material!',hint:'Attack the more valuable piece first.',answer:'Bb5+',icon:'♗',theme:'Skewer'},
+  {fen:'disco1',title:'Discovered Attack',desc:'White to move. Unleash a discovered attack!',hint:'Moving one piece reveals an attack from another.',answer:'Nxe5',icon:'♘',theme:'Discovered Attack'},
+];
+let currentPuzzle=0;
+function renderPuzzles(){
+  const c=document.getElementById('puzzles-content');if(!c)return;
+  const p=PUZZLE_POSITIONS[currentPuzzle%PUZZLE_POSITIONS.length];
+  c.innerHTML=`
+    <div style="text-align:center;margin-bottom:28px">
+      <div class="section-tag">🧩 Puzzle ${currentPuzzle+1}</div>
+      <h2 style="font-family:'Fredoka One',cursive;font-size:32px;margin-top:8px">${p.title}</h2>
+      <p style="color:var(--text-light);font-weight:600;margin-top:6px">${p.desc}</p>
+      <span style="display:inline-block;background:#e3f2fd;color:var(--blue-dark);border-radius:50px;padding:4px 14px;font-size:12px;font-weight:800;margin-top:8px">Theme: ${p.theme}</span>
+    </div>
+    <div style="background:#fff;border-radius:20px;padding:28px;box-shadow:var(--shadow);margin-bottom:20px">
+      <div style="background:linear-gradient(135deg,#1B5E20,#2E7D32);border-radius:12px;height:220px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;position:relative">
+        <div style="font-size:80px">${p.icon}</div>
+        <div style="position:absolute;bottom:12px;right:14px;background:rgba(0,0,0,.6);color:#fff;border-radius:8px;padding:4px 12px;font-size:12px;font-weight:800">♟️ White to move</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+        <button class="btn btn-yellow btn-full" onclick="showPuzzleHint()">💡 Show Hint</button>
+        <button class="btn btn-green btn-full" onclick="showPuzzleSolution()">✅ Show Solution</button>
+      </div>
+      <div id="puzzle-feedback" style="text-align:center;min-height:40px;font-weight:700;font-size:15px"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <button class="btn btn-gray" onclick="currentPuzzle=Math.max(0,currentPuzzle-1);renderPuzzles()">← Previous</button>
+      <span style="font-weight:800;color:var(--text-light)">${currentPuzzle+1} / ${PUZZLE_POSITIONS.length}</span>
+      <button class="btn btn-green" onclick="currentPuzzle++;renderPuzzles()">Next Puzzle →</button>
+    </div>`;
+}
+function showPuzzleHint(){
+  const p=PUZZLE_POSITIONS[currentPuzzle%PUZZLE_POSITIONS.length];
+  const f=document.getElementById('puzzle-feedback');
+  if(f)f.innerHTML=`<span style="color:var(--blue-dark)">💡 Hint: ${p.hint}</span>`;
+}
+function showPuzzleSolution(){
+  const p=PUZZLE_POSITIONS[currentPuzzle%PUZZLE_POSITIONS.length];
+  const f=document.getElementById('puzzle-feedback');
+  if(f)f.innerHTML=`<span style="color:var(--green-dark)">✅ Solution: <b>${p.answer}</b> — Well done if you found it! 🎉</span>`;
+  if(DB.currentUser()){const u=DB.currentUser();u.puzzlesSolved=(u.puzzlesSolved||0)+1;DB.saveUser(u);renderNav();}
+}
+
+// ── EVENTS PAGE ──────────────────────────────
+const EVENTS_DATA=[
+  {title:'Tournament Tuesdays',date:'Every Tuesday',time:'4:00 PM Pacific',icon:'⚡',color:'#1565C0',prize:'🏅 Trophy + 500 XP',players:'All levels',format:'5+0 • 5 rounds',registered:false},
+  {title:'Monthly Championship',date:'March 29, 2026',time:'10:00 AM Pacific',icon:'🏆',color:'#F57F17',prize:'🥇 Gold Trophy + 2000 XP',players:'All levels',format:'10+0 • Swiss',registered:false},
+  {title:'Beginner Cup',date:'March 22, 2026',time:'2:00 PM Pacific',icon:'🌱',color:'#2E7D32',prize:'🌟 Silver + 1000 XP',players:'Rating < 1000',format:'5+0 • 6 rounds',registered:false},
+  {title:'Puzzle Sprint',date:'March 20, 2026',time:'3:00 PM Pacific',icon:'🧩',color:'#4A148C',prize:'⭐ 750 XP',players:'All levels',format:'Puzzle Race',registered:false},
+];
+function renderEvents(){
+  const c=document.getElementById('events-content');if(!c)return;
+  c.innerHTML=`
+    <div class="section-header"><div class="section-tag">🏆 Events</div><h2 class="section-title">Upcoming Tournaments</h2><p class="section-subtitle">Compete, win prizes, and climb the leaderboard!</p></div>
+    <div style="display:flex;flex-direction:column;gap:18px">
+      ${EVENTS_DATA.map((e,i)=>`
+        <div style="background:#fff;border-radius:18px;padding:24px;box-shadow:var(--shadow);display:grid;grid-template-columns:60px 1fr auto;gap:18px;align-items:center;border-left:5px solid ${e.color}">
+          <div style="font-size:42px;text-align:center">${e.icon}</div>
+          <div>
+            <div style="font-weight:800;font-size:18px;margin-bottom:4px">${e.title}</div>
+            <div style="font-size:13px;color:var(--text-light);font-weight:600;margin-bottom:6px">📅 ${e.date} • ⏰ ${e.time}</div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <span style="background:#e8f5e9;color:var(--green-dark);border-radius:50px;padding:3px 12px;font-size:12px;font-weight:800">${e.prize}</span>
+              <span style="background:#e3f2fd;color:var(--blue-dark);border-radius:50px;padding:3px 12px;font-size:12px;font-weight:800">👥 ${e.players}</span>
+              <span style="background:#fff3e0;color:#E65100;border-radius:50px;padding:3px 12px;font-size:12px;font-weight:800">⏱ ${e.format}</span>
+            </div>
+          </div>
+          <div id="event-btn-${i}">
+            <button class="btn btn-green" onclick="registerEvent(${i})">📋 Register</button>
+          </div>
+        </div>`).join('')}
+    </div>`;
+}
+function registerEvent(i){
+  requireAuth(()=>{
+    EVENTS_DATA[i].registered=!EVENTS_DATA[i].registered;
+    const btn=document.getElementById(`event-btn-${i}`);
+    if(btn) btn.innerHTML=EVENTS_DATA[i].registered
+      ?`<span style="background:#e8f5e9;color:var(--green-dark);border-radius:50px;padding:8px 16px;font-weight:800;font-size:13px">✅ Registered!</span>`
+      :`<button class="btn btn-green" onclick="registerEvent(${i})">📋 Register</button>`;
+    toast(EVENTS_DATA[i].registered?`Registered for ${EVENTS_DATA[i].title}! 🎉`:`Unregistered from ${EVENTS_DATA[i].title}`,'info');
+  });
+}
+
+// ── LEADERBOARD ──────────────────────────────
+function renderLeaderboard(){
+  const c=document.getElementById('leaderboard-content');if(!c)return;
+  const me=DB.currentUser();
+  const allUsers=[...DB.users].sort((a,b)=>(b.rating||0)-(a.rating||0));
+  const medals=['🥇','🥈','🥉'];
+  c.innerHTML=`
+    <div class="section-header"><div class="section-tag">🏅 Leaderboard</div><h2 class="section-title">Top ChessKids</h2><p class="section-subtitle">See where you rank among all players!</p></div>
+    ${me?`<div style="background:linear-gradient(135deg,#1B5E20,#2E7D32);border-radius:16px;padding:20px 24px;color:#fff;margin-bottom:24px;display:flex;align-items:center;gap:16px">
+      <div style="font-size:40px">${me.avatar}</div>
+      <div style="flex:1"><div style="font-weight:800;font-size:18px">Your Rank</div><div style="opacity:.8;font-size:13px">${me.username}</div></div>
+      <div style="text-align:center"><div style="font-family:'Fredoka One',cursive;font-size:32px;color:var(--yellow)">#${allUsers.findIndex(u=>u.email===me.email)+1}</div><div style="opacity:.8;font-size:12px">of ${allUsers.length}</div></div>
+      <div style="text-align:center"><div style="font-family:'Fredoka One',cursive;font-size:28px;color:var(--yellow)">⚡${me.rating}</div><div style="opacity:.8;font-size:12px">Rating</div></div>
+    </div>`:''}
+    <div style="background:#fff;border-radius:16px;box-shadow:var(--shadow);overflow:hidden">
+      ${allUsers.map((u,i)=>`
+        <div style="display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid #f0f0f0;background:${me&&u.email===me.email?'#e8f5e9':'#fff'};transition:background .2s" onmouseover="if(!'${me?.email}'||'${u.email}'!=='${me?.email}')this.style.background='#f9f9f9'" onmouseout="this.style.background='${me&&u.email===me.email?'#e8f5e9':'#fff'}'">
+          <div style="font-size:20px;width:36px;text-align:center;font-weight:800">${i<3?medals[i]:`#${i+1}`}</div>
+          <div style="font-size:32px">${u.avatar}</div>
+          <div style="flex:1">
+            <div style="font-weight:800;font-size:15px">${u.username}${me&&u.email===me.email?' (You)':''}</div>
+            <div style="font-size:12px;color:var(--text-light);font-weight:600">${u.gamesPlayed||0} games • ${u.wins||0}W ${u.losses||0}L</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-family:'Fredoka One',cursive;font-size:20px;color:var(--green-dark)">⚡${u.rating||600}</div>
+            <div style="font-size:11px;color:var(--text-light);font-weight:700">${u.puzzlesSolved||0} puzzles</div>
+          </div>
+        </div>`).join('')}
+    </div>`;
+}
+
+// ── CHESS BOARD ──────────────────────────────
 let currentFriendTab='all';
 
 function switchFriendTab(tab,btn){
@@ -1824,213 +2218,264 @@ function inBounds(r,c){return r>=0&&r<8&&c>=0&&c<8}
 
 // ── Canvas board renderer ──────────────────────────────────────
 const LIGHT='#F0D9B5', DARK='#B58863';
-const SEL_LIGHT='#c8f5c8', SEL_DARK='#6aad6a';
-const LAST_LIGHT='rgba(255,215,0,.5)', LAST_DARK='rgba(200,160,0,.45)';
-const CHECK_COLOR='rgba(210,40,40,.7)';
+const SEL_LIGHT='#cdf5cd', SEL_DARK='#5db35d';
+const LAST_LIGHT='rgba(255,210,0,.52)', LAST_DARK='rgba(185,148,0,.48)';
 
-// Piece colors
-const W_FILL='#FFFEF0';   // Cream white
-const W_STROKE='#8B6914'; // Dark gold outline
-const W_INNER='#D4AF37';  // Gold accent
-const B_FILL='#2C1810';   // Dark brown
-const B_STROKE='#0a0a0a'; // Near-black outline
-const B_INNER='#5C3317';  // Brown accent
-const B_SHINE='rgba(255,255,255,.12)';
+// White piece colors — ivory/cream with gold trim
+const W_FILL='#F5F0DC', W_STROKE='#6B4C11', W_MID='#E8D59A', W_SHINE='rgba(255,255,255,.55)';
+// Black piece colors — ebony with bronze trim
+const B_FILL='#1C1008', B_STROKE='#0A0603', B_MID='#3D2208', B_SHINE='rgba(255,255,255,.10)';
 
 function getCanvas(){return document.getElementById('game-canvas')}
-function getSqSize(){const c=getCanvas();return c?c.width/8:64}
+function getSqSize(){const c=getCanvas();if(!c)return 64;return c.width/(8+2*.18)}
+function getBdr(){return getSqSize()*.18}
 
-// ── Draw a single colored piece on canvas ──────────────────────
-function drawPiece(ctx, piece, cx, cy, size){
+function pc(isW){return{fill:isW?W_FILL:B_FILL,stroke:isW?W_STROKE:B_STROKE,mid:isW?W_MID:B_MID,shine:isW?W_SHINE:B_SHINE}}
+
+function drawPiece(ctx,piece,cx,cy,size){
   const isW=isUpper(piece);
   const pt=piece.toUpperCase();
-  const fill=isW?W_FILL:B_FILL;
-  const stroke=isW?W_STROKE:B_STROKE;
-  const inner=isW?W_INNER:B_INNER;
-  const r=size*.42;
-
+  const {fill,stroke,mid,shine}=pc(isW);
   ctx.save();
   ctx.translate(cx,cy);
-
-  // Drop shadow
-  ctx.shadowColor='rgba(0,0,0,.45)';
-  ctx.shadowBlur=size*.08;
-  ctx.shadowOffsetY=size*.04;
-
-  if(pt==='P') drawPawn(ctx,fill,stroke,inner,size,isW);
-  else if(pt==='N') drawKnight(ctx,fill,stroke,inner,size,isW);
-  else if(pt==='B') drawBishop(ctx,fill,stroke,inner,size,isW);
-  else if(pt==='R') drawRook(ctx,fill,stroke,inner,size,isW);
-  else if(pt==='Q') drawQueen(ctx,fill,stroke,inner,size,isW);
-  else if(pt==='K') drawKing(ctx,fill,stroke,inner,size,isW);
-
+  ctx.shadowColor='rgba(0,0,0,.5)';ctx.shadowBlur=size*.1;ctx.shadowOffsetY=size*.05;
+  if(pt==='P') stauntonPawn(ctx,fill,stroke,mid,shine,size);
+  else if(pt==='N') stauntonKnight(ctx,fill,stroke,mid,shine,size,isW);
+  else if(pt==='B') stauntonBishop(ctx,fill,stroke,mid,shine,size);
+  else if(pt==='R') stauntonRook(ctx,fill,stroke,mid,shine,size);
+  else if(pt==='Q') stauntonQueen(ctx,fill,stroke,mid,shine,size,isW);
+  else if(pt==='K') stauntonKing(ctx,fill,stroke,mid,shine,size,isW);
   ctx.shadowBlur=0;ctx.shadowOffsetY=0;
   ctx.restore();
 }
 
-function applyPieceStyle(ctx,fill,stroke,lw){
-  ctx.fillStyle=fill; ctx.strokeStyle=stroke; ctx.lineWidth=lw;
-}
+// ── helper: filled+stroked path ──
+function fs(ctx,fill,stroke,lw){ctx.fillStyle=fill;ctx.strokeStyle=stroke;ctx.lineWidth=lw;ctx.fill();ctx.stroke();}
 
-function drawPawn(ctx,fill,stroke,inner,s,isW){
-  const lw=s*.055;
-  // Base
-  ctx.beginPath();ctx.ellipse(0,s*.22,s*.28,s*.1,0,0,Math.PI*2);
-  applyPieceStyle(ctx,fill,stroke,lw);ctx.fill();ctx.stroke();
-  // Neck stem
-  ctx.beginPath();ctx.rect(-s*.1,-s*.04,s*.2,s*.26);
-  ctx.fill();ctx.stroke();
-  // Head
-  ctx.beginPath();ctx.arc(0,-s*.14,s*.22,0,Math.PI*2);
-  applyPieceStyle(ctx,fill,stroke,lw);ctx.fill();ctx.stroke();
-  // Shine
-  ctx.beginPath();ctx.arc(-s*.07,-s*.2,s*.08,0,Math.PI*2);
-  ctx.fillStyle=isW?'rgba(255,255,255,.4)':B_SHINE;ctx.fill();
-}
-
-function drawKnight(ctx,fill,stroke,inner,s,isW){
-  const lw=s*.06;
-  // Body
+// ─── PAWN ────────────────────────────────────────────
+function stauntonPawn(ctx,fill,stroke,mid,shine,s){
+  const lw=s*.048;
+  // Stepped base
+  ctx.beginPath();ctx.ellipse(0,s*.30,s*.30,s*.08,0,0,Math.PI*2);fs(ctx,fill,stroke,lw);
+  ctx.beginPath();ctx.ellipse(0,s*.22,s*.22,s*.07,0,0,Math.PI*2);fs(ctx,fill,stroke,lw);
+  // Neck
   ctx.beginPath();
-  ctx.moveTo(-s*.22,s*.26);
-  ctx.lineTo(-s*.26,s*.08);
-  ctx.quadraticCurveTo(-s*.26,-s*.18,-s*.02,-s*.28);
-  ctx.quadraticCurveTo(s*.18,-s*.32,s*.24,-s*.14);
-  ctx.quadraticCurveTo(s*.28,s*.0,s*.14,s*.12);
-  ctx.quadraticCurveTo(s*.22,s*.2,s*.22,s*.26);
-  ctx.closePath();
-  applyPieceStyle(ctx,fill,stroke,lw);ctx.fill();ctx.stroke();
+  ctx.moveTo(-s*.09,s*.20);ctx.lineTo(-s*.07,-s*.02);
+  ctx.arc(0,-s*.02,s*.07,Math.PI,0);
+  ctx.lineTo(s*.09,s*.20);
+  ctx.closePath();fs(ctx,fill,stroke,lw);
+  // Head ball
+  ctx.beginPath();ctx.arc(0,-s*.16,s*.20,0,Math.PI*2);fs(ctx,fill,stroke,lw);
+  // Highlight
+  ctx.beginPath();ctx.arc(-s*.06,-s*.22,s*.08,0,Math.PI*2);
+  ctx.fillStyle=shine;ctx.fill();
+}
+
+// ─── KNIGHT ──────────────────────────────────────────
+function stauntonKnight(ctx,fill,stroke,mid,shine,s,isW){
+  const lw=s*.05;
   // Base
-  ctx.beginPath();ctx.ellipse(0,s*.26,s*.28,s*.09,0,0,Math.PI*2);
-  ctx.fill();ctx.stroke();
+  ctx.beginPath();ctx.ellipse(0,s*.28,s*.30,s*.09,0,0,Math.PI*2);fs(ctx,fill,stroke,lw);
+  ctx.beginPath();ctx.ellipse(0,s*.20,s*.22,s*.07,0,0,Math.PI*2);fs(ctx,fill,stroke,lw);
+  // Horse head silhouette
+  ctx.beginPath();
+  ctx.moveTo(-s*.20,s*.18);
+  ctx.bezierCurveTo(-s*.22,s*.08,-s*.24,-s*.04,-s*.18,-s*.16);
+  ctx.bezierCurveTo(-s*.12,-s*.28,-s*.04,-s*.34,s*.04,-s*.34);
+  ctx.bezierCurveTo(s*.16,-s*.34,s*.26,-s*.26,s*.26,-s*.14);
+  ctx.bezierCurveTo(s*.28,-s*.04,s*.22,s*.06,s*.16,s*.12);
+  ctx.bezierCurveTo(s*.22,s*.16,s*.22,s*.20,s*.20,s*.18);
+  ctx.closePath();
+  fs(ctx,fill,stroke,lw);
+  // Ear
+  ctx.beginPath();
+  ctx.moveTo(s*.04,-s*.34);
+  ctx.bezierCurveTo(s*.06,-s*.42,s*.14,-s*.44,s*.16,-s*.34);
+  ctx.bezierCurveTo(s*.12,-s*.30,s*.08,-s*.32,s*.04,-s*.34);
+  ctx.closePath();fs(ctx,fill,stroke,lw*.7);
   // Eye
-  ctx.beginPath();ctx.arc(s*.1,-s*.08,s*.05,0,Math.PI*2);
-  ctx.fillStyle=inner;ctx.fill();
-  // Mane mark
-  ctx.beginPath();ctx.moveTo(-s*.08,s*.0);ctx.lineTo(s*.04,-s*.2);
-  ctx.strokeStyle=inner;ctx.lineWidth=lw*0.8;ctx.stroke();
+  ctx.beginPath();ctx.arc(s*.14,-s*.18,s*.04,0,Math.PI*2);
+  ctx.fillStyle=isW?'#3a2000':'#ffffff';ctx.fill();
+  // Nostril
+  ctx.beginPath();ctx.ellipse(s*.22,-s*.06,s*.025,s*.018,Math.PI/4,0,Math.PI*2);
+  ctx.fillStyle=isW?'#3a2000':'#888888';ctx.fill();
+  // Shine on forehead
+  ctx.beginPath();ctx.arc(s*.06,-s*.28,s*.05,0,Math.PI*2);
+  ctx.fillStyle=shine;ctx.fill();
 }
 
-function drawBishop(ctx,fill,stroke,inner,s,isW){
-  const lw=s*.055;
-  // Base
-  ctx.beginPath();ctx.ellipse(0,s*.24,s*.28,s*.1,0,0,Math.PI*2);
-  applyPieceStyle(ctx,fill,stroke,lw);ctx.fill();ctx.stroke();
-  // Body
+// ─── BISHOP ──────────────────────────────────────────
+function stauntonBishop(ctx,fill,stroke,mid,shine,s){
+  const lw=s*.048;
+  // Base layers
+  ctx.beginPath();ctx.ellipse(0,s*.28,s*.30,s*.08,0,0,Math.PI*2);fs(ctx,fill,stroke,lw);
+  ctx.beginPath();ctx.ellipse(0,s*.20,s*.22,s*.065,0,0,Math.PI*2);fs(ctx,fill,stroke,lw);
+  // Body — tall mitre shape
   ctx.beginPath();
-  ctx.moveTo(-s*.2,s*.22);
-  ctx.quadraticCurveTo(-s*.14,s*.0,-s*.06,-s*.04);
-  ctx.lineTo(-s*.1,-s*.16);
-  ctx.quadraticCurveTo(0,-s*.36,s*.1,-s*.16);
-  ctx.lineTo(s*.06,-s*.04);
-  ctx.quadraticCurveTo(s*.14,s*.0,s*.2,s*.22);
-  ctx.closePath();
-  ctx.fill();ctx.stroke();
-  // Ball on top
-  ctx.beginPath();ctx.arc(0,-s*.32,s*.1,0,Math.PI*2);
-  ctx.fill();ctx.stroke();
-  // Cross notch
-  ctx.beginPath();ctx.moveTo(-s*.08,-s*.17);ctx.lineTo(s*.08,-s*.17);
-  ctx.strokeStyle=inner;ctx.lineWidth=lw;ctx.stroke();
+  ctx.moveTo(-s*.18,s*.18);
+  ctx.bezierCurveTo(-s*.20,s*.04,-s*.12,-s*.10,-s*.06,-s*.14);
+  ctx.bezierCurveTo(-s*.04,-s*.16,-s*.04,-s*.18,-s*.05,-s*.22);
+  ctx.bezierCurveTo(-s*.06,-s*.28,0,-s*.34,0,-s*.38);
+  ctx.bezierCurveTo(0,-s*.34,s*.06,-s*.28,s*.05,-s*.22);
+  ctx.bezierCurveTo(s*.04,-s*.18,s*.04,-s*.16,s*.06,-s*.14);
+  ctx.bezierCurveTo(s*.12,-s*.10,s*.20,s*.04,s*.18,s*.18);
+  ctx.closePath();fs(ctx,fill,stroke,lw);
+  // Collar ring
+  ctx.beginPath();ctx.ellipse(0,s*.08,s*.12,s*.04,0,0,Math.PI*2);
+  ctx.fillStyle=mid;ctx.strokeStyle=stroke;ctx.lineWidth=lw*.6;ctx.fill();ctx.stroke();
+  // Ball tip
+  ctx.beginPath();ctx.arc(0,-s*.36,s*.07,0,Math.PI*2);fs(ctx,fill,stroke,lw*.8);
+  // Notch across ball
+  ctx.beginPath();ctx.moveTo(-s*.06,-s*.36);ctx.lineTo(s*.06,-s*.36);
+  ctx.strokeStyle=mid;ctx.lineWidth=lw*.9;ctx.stroke();
   // Shine
-  ctx.beginPath();ctx.arc(-s*.04,-s*.36,s*.05,0,Math.PI*2);
-  ctx.fillStyle=isW?'rgba(255,255,255,.4)':B_SHINE;ctx.fill();
+  ctx.beginPath();ctx.arc(-s*.04,-s*.28,s*.05,0,Math.PI*2);
+  ctx.fillStyle=shine;ctx.fill();
 }
 
-function drawRook(ctx,fill,stroke,inner,s,isW){
-  const lw=s*.055;
+// ─── ROOK ────────────────────────────────────────────
+function stauntonRook(ctx,fill,stroke,mid,shine,s){
+  const lw=s*.05;
   // Base
-  ctx.beginPath();ctx.ellipse(0,s*.24,s*.3,s*.1,0,0,Math.PI*2);
-  applyPieceStyle(ctx,fill,stroke,lw);ctx.fill();ctx.stroke();
-  // Column
-  ctx.beginPath();ctx.rect(-s*.16,s*.12,s*.32,s*.08);ctx.fill();ctx.stroke();
-  ctx.beginPath();ctx.rect(-s*.12,-s*.16,s*.24,s*.3);ctx.fill();ctx.stroke();
-  // Battlements
-  const bW=s*.07,bH=s*.1,bGap=s*.04;
-  const bY=-s*.28;
-  [(-s*.14),(0-bW/2),(s*.14-bW)].forEach(bx=>{
-    ctx.beginPath();ctx.rect(bx,bY,bW,bH);ctx.fill();ctx.stroke();
-  });
+  ctx.beginPath();ctx.ellipse(0,s*.28,s*.32,s*.09,0,0,Math.PI*2);fs(ctx,fill,stroke,lw);
+  ctx.beginPath();ctx.ellipse(0,s*.20,s*.24,s*.07,0,0,Math.PI*2);fs(ctx,fill,stroke,lw);
+  // Column body
+  ctx.beginPath();
+  ctx.moveTo(-s*.15,s*.18);ctx.lineTo(-s*.15,-s*.14);
+  ctx.arc(0,-s*.14,s*.15,Math.PI,0);
+  ctx.lineTo(s*.15,s*.18);
+  ctx.closePath();fs(ctx,fill,stroke,lw);
   // Top platform
-  ctx.beginPath();ctx.rect(-s*.16,-s*.18,s*.32,s*.04);ctx.fill();ctx.stroke();
-  // Inner window
-  ctx.beginPath();ctx.rect(-s*.07,-s*.1,s*.14,s*.14);
-  ctx.fillStyle=inner;ctx.fill();
+  ctx.beginPath();ctx.rect(-s*.18,-s*.16,s*.36,s*.06);fs(ctx,fill,stroke,lw);
+  // Three battlements
+  const bw=s*.10,bh=s*.14,gap=s*.04;
+  const bxs=[-s*.16,-(bw/2),s*.16-bw];
+  bxs.forEach(bx=>{
+    ctx.beginPath();ctx.rect(bx,-s*.30,bw,bh);fs(ctx,fill,stroke,lw*.8);
+  });
+  // Window hole
+  ctx.beginPath();ctx.rect(-s*.07,-s*.12,s*.14,s*.16);
+  ctx.fillStyle=mid;ctx.strokeStyle=stroke;ctx.lineWidth=lw*.5;ctx.fill();ctx.stroke();
+  // Shine
+  ctx.beginPath();ctx.arc(-s*.06,-s*.06,s*.04,0,Math.PI*2);
+  ctx.fillStyle=shine;ctx.fill();
 }
 
-function drawQueen(ctx,fill,stroke,inner,s,isW){
-  const lw=s*.055;
+// ─── QUEEN ───────────────────────────────────────────
+function stauntonQueen(ctx,fill,stroke,mid,shine,s,isW){
+  const lw=s*.048;
   // Base
-  ctx.beginPath();ctx.ellipse(0,s*.25,s*.32,s*.1,0,0,Math.PI*2);
-  applyPieceStyle(ctx,fill,stroke,lw);ctx.fill();ctx.stroke();
-  // Body
+  ctx.beginPath();ctx.ellipse(0,s*.28,s*.34,s*.09,0,0,Math.PI*2);fs(ctx,fill,stroke,lw);
+  ctx.beginPath();ctx.ellipse(0,s*.20,s*.26,s*.075,0,0,Math.PI*2);fs(ctx,fill,stroke,lw);
+  // Body — curved silhouette
   ctx.beginPath();
-  ctx.moveTo(-s*.24,s*.22);
-  ctx.quadraticCurveTo(-s*.18,0,-s*.12,-s*.08);
-  ctx.lineTo(-s*.16,-s*.2);
-  ctx.quadraticCurveTo(0,-s*.18,s*.16,-s*.2);
-  ctx.lineTo(s*.12,-s*.08);
-  ctx.quadraticCurveTo(s*.18,0,s*.24,s*.22);
-  ctx.closePath();
-  ctx.fill();ctx.stroke();
-  // Crown points
-  [[0,-s*.36],[-s*.14,-s*.28],[s*.14,-s*.28]].forEach(([px,py])=>{
-    ctx.beginPath();ctx.arc(px,py,s*.08,0,Math.PI*2);
-    applyPieceStyle(ctx,fill,stroke,lw*.8);ctx.fill();ctx.stroke();
-  });
-  // Crown gems
-  ctx.fillStyle=inner;
-  [[0,-s*.36],[-s*.14,-s*.28],[s*.14,-s*.28]].forEach(([px,py])=>{
-    ctx.beginPath();ctx.arc(px,py,s*.04,0,Math.PI*2);ctx.fill();
-  });
+  ctx.moveTo(-s*.22,s*.18);
+  ctx.bezierCurveTo(-s*.22,s*.04,-s*.16,-s*.06,-s*.10,-s*.10);
+  ctx.lineTo(-s*.14,-s*.20);ctx.bezierCurveTo(-s*.06,-s*.20,s*.06,-s*.20,s*.14,-s*.20);
+  ctx.lineTo(s*.10,-s*.10);
+  ctx.bezierCurveTo(s*.16,-s*.06,s*.22,s*.04,s*.22,s*.18);
+  ctx.closePath();fs(ctx,fill,stroke,lw);
+  // Crown orb
+  ctx.beginPath();ctx.arc(0,-s*.28,s*.12,0,Math.PI*2);fs(ctx,fill,stroke,lw);
+  // 5 crown points
+  const pts=5,R1=s*.22,R2=s*.14,angOff=-Math.PI/2;
+  ctx.beginPath();
+  for(let i=0;i<pts*2;i++){
+    const a=angOff+i*Math.PI/pts;
+    const r=i%2===0?R1:R2;
+    const x=Math.cos(a)*r, y=-s*.28+Math.sin(a)*r;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.closePath();ctx.fillStyle=mid;ctx.strokeStyle=stroke;ctx.lineWidth=lw*.8;ctx.fill();ctx.stroke();
+  // Gems on crown tips
+  for(let i=0;i<pts;i++){
+    const a=angOff+i*2*Math.PI/pts;
+    const x=Math.cos(a)*R1, y=-s*.28+Math.sin(a)*R1;
+    ctx.beginPath();ctx.arc(x,y,s*.04,0,Math.PI*2);
+    ctx.fillStyle=isW?'#C41E3A':'#FFD700';ctx.fill();
+  }
+  // Center cross on orb
+  ctx.beginPath();ctx.moveTo(0,-s*.34);ctx.lineTo(0,-s*.22);ctx.moveTo(-s*.06,-s*.28);ctx.lineTo(s*.06,-s*.28);
+  ctx.strokeStyle=stroke;ctx.lineWidth=lw*.7;ctx.stroke();
   // Shine
-  ctx.beginPath();ctx.arc(-s*.05,-s*.34,s*.04,0,Math.PI*2);
-  ctx.fillStyle=isW?'rgba(255,255,255,.5)':B_SHINE;ctx.fill();
+  ctx.beginPath();ctx.arc(-s*.04,-s*.30,s*.05,0,Math.PI*2);
+  ctx.fillStyle=shine;ctx.fill();
 }
 
-function drawKing(ctx,fill,stroke,inner,s,isW){
-  const lw=s*.055;
+// ─── KING ────────────────────────────────────────────
+function stauntonKing(ctx,fill,stroke,mid,shine,s,isW){
+  const lw=s*.05;
   // Base
-  ctx.beginPath();ctx.ellipse(0,s*.25,s*.3,s*.1,0,0,Math.PI*2);
-  applyPieceStyle(ctx,fill,stroke,lw);ctx.fill();ctx.stroke();
+  ctx.beginPath();ctx.ellipse(0,s*.28,s*.32,s*.09,0,0,Math.PI*2);fs(ctx,fill,stroke,lw);
+  ctx.beginPath();ctx.ellipse(0,s*.20,s*.24,s*.07,0,0,Math.PI*2);fs(ctx,fill,stroke,lw);
   // Body
   ctx.beginPath();
-  ctx.moveTo(-s*.22,s*.22);
-  ctx.quadraticCurveTo(-s*.18,-s*.02,-s*.12,-s*.1);
-  ctx.lineTo(-s*.14,-s*.22);
-  ctx.quadraticCurveTo(0,-s*.2,s*.14,-s*.22);
-  ctx.lineTo(s*.12,-s*.1);
-  ctx.quadraticCurveTo(s*.18,-s*.02,s*.22,s*.22);
-  ctx.closePath();
-  ctx.fill();ctx.stroke();
-  // Cross vertical
-  ctx.beginPath();ctx.rect(-s*.04,-s*.42,s*.08,s*.26);
-  applyPieceStyle(ctx,inner,stroke,lw*.8);ctx.fill();ctx.stroke();
-  // Cross horizontal
-  ctx.beginPath();ctx.rect(-s*.13,-s*.36,s*.26,s*.08);
-  ctx.fill();ctx.stroke();
+  ctx.moveTo(-s*.20,s*.18);
+  ctx.bezierCurveTo(-s*.20,s*.04,-s*.14,-s*.06,-s*.08,-s*.10);
+  ctx.lineTo(-s*.12,-s*.20);ctx.bezierCurveTo(-s*.04,-s*.20,s*.04,-s*.20,s*.12,-s*.20);
+  ctx.lineTo(s*.08,-s*.10);
+  ctx.bezierCurveTo(s*.14,-s*.06,s*.20,s*.04,s*.20,s*.18);
+  ctx.closePath();fs(ctx,fill,stroke,lw);
+  // Crown band
+  ctx.beginPath();ctx.rect(-s*.14,-s*.22,s*.28,s*.06);
+  ctx.fillStyle=mid;ctx.strokeStyle=stroke;ctx.lineWidth=lw*.6;ctx.fill();ctx.stroke();
+  // Crown with 3 peaks
+  const peaks=[[-s*.12,-s*.28],[0,-s*.34],[s*.12,-s*.28]];
+  ctx.beginPath();
+  ctx.moveTo(-s*.14,-s*.22);
+  peaks.forEach(([px,py])=>{ctx.lineTo(px,py)});
+  ctx.lineTo(s*.14,-s*.22);
+  ctx.closePath();fs(ctx,fill,stroke,lw*.8);
+  // Orbs on peaks
+  peaks.forEach(([px,py])=>{
+    ctx.beginPath();ctx.arc(px,py,s*.04,0,Math.PI*2);
+    ctx.fillStyle=mid;ctx.strokeStyle=stroke;ctx.lineWidth=lw*.5;ctx.fill();ctx.stroke();
+  });
+  // Cross on top
+  ctx.beginPath();
+  ctx.rect(-s*.025,-s*.46,s*.05,s*.16);
+  ctx.rect(-s*.08,-s*.38,s*.16,s*.05);
+  ctx.fillStyle=isW?'#B8860B':'#888888';ctx.strokeStyle=stroke;ctx.lineWidth=lw*.5;ctx.fill();ctx.stroke();
   // Shine
-  ctx.beginPath();ctx.arc(-s*.04,-s*.14,s*.05,0,Math.PI*2);
-  ctx.fillStyle=isW?'rgba(255,255,255,.35)':B_SHINE;ctx.fill();
+  ctx.beginPath();ctx.arc(-s*.04,-s*.12,s*.04,0,Math.PI*2);
+  ctx.fillStyle=shine;ctx.fill();
 }
 
 function drawBoard(){
   const canvas=getCanvas(); if(!canvas)return;
   const ctx=canvas.getContext('2d');
   const gs=getSqSize();
+  const bdr=getBdr();
   const b=gameState.board;
   const flip=boardFlipped;
-  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle='#8B5E2A';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle='#5C3A17';
+  ctx.fillRect(bdr,bdr,canvas.width-bdr*2,canvas.height-bdr*2);
 
+  // Draw coordinates in border
+  ctx.font=`bold ${bdr*.52}px Nunito,sans-serif`;
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillStyle='#F0D9B5';
+  const FILES_ARR=['a','b','c','d','e','f','g','h'];
+  for(let i=0;i<8;i++){
+    const fi=flip?7-i:i;
+    const ri=flip?i:7-i;
+    // File letters bottom
+    ctx.fillText(FILES_ARR[fi],bdr+i*gs+gs/2,canvas.height-bdr/2);
+    // Rank numbers left
+    ctx.fillText(ri+1,bdr/2,bdr+i*gs+gs/2);
+  }
+
+  // Squares
   for(let ri=0;ri<8;ri++){
     for(let ci=0;ci<8;ci++){
       const r=flip?7-ri:ri, c=flip?7-ci:ci;
-      const x=ci*gs, y=ri*gs;
+      const x=bdr+ci*gs, y=bdr+ri*gs;
       const isLight=(r+c)%2===0;
 
-      // ── Square color ──
-      let sqColor=isLight?LIGHT:DARK;
-      ctx.fillStyle=sqColor;
+      // Base square color
+      ctx.fillStyle=isLight?LIGHT:DARK;
       ctx.fillRect(x,y,gs,gs);
 
       // Last move tint
@@ -2045,39 +2490,36 @@ function drawBoard(){
         ctx.fillStyle=isLight?SEL_LIGHT:SEL_DARK;
         ctx.fillRect(x,y,gs,gs);
       }
-      // Check king highlight
+      // Check king — radial red glow
       if(gameState.inCheck&&b[r][c]===(gameState.turn==='white'?'K':'k')){
-        // Radial red glow
-        const grad=ctx.createRadialGradient(x+gs/2,y+gs/2,0,x+gs/2,y+gs/2,gs*.6);
-        grad.addColorStop(0,'rgba(255,50,50,.85)');
-        grad.addColorStop(1,'rgba(180,0,0,.2)');
-        ctx.fillStyle=grad;
-        ctx.fillRect(x,y,gs,gs);
+        const grad=ctx.createRadialGradient(x+gs/2,y+gs/2,0,x+gs/2,y+gs/2,gs*.65);
+        grad.addColorStop(0,'rgba(255,40,40,.92)');
+        grad.addColorStop(.5,'rgba(200,0,0,.55)');
+        grad.addColorStop(1,'rgba(150,0,0,.0)');
+        ctx.fillStyle=grad;ctx.fillRect(x,y,gs,gs);
       }
-
-      // ── Legal move indicators ──
+      // Legal move indicator
       if(gameState.legalMoves.some(m=>m[0]===r&&m[1]===c)){
         if(b[r][c]){
-          // Capture: corner triangles
-          ctx.fillStyle='rgba(220,60,60,.35)';
-          const t=gs*.18;
-          [[0,0],[1,0],[0,1],[1,1]].forEach(([cx2,cy2])=>{
+          // Capture: red corner triangles
+          const t=gs*.22;
+          ctx.fillStyle='rgba(210,50,50,.40)';
+          [[0,0],[1,0],[0,1],[1,1]].forEach(([ox,oy])=>{
             ctx.beginPath();
-            ctx.moveTo(x+cx2*gs,y+cy2*gs);
-            ctx.lineTo(x+cx2*gs+(cx2?-t:t),y+cy2*gs);
-            ctx.lineTo(x+cx2*gs,y+cy2*gs+(cy2?-t:t));
+            ctx.moveTo(x+ox*gs,y+oy*gs);
+            ctx.lineTo(x+ox*gs+(ox?-t:t),y+oy*gs);
+            ctx.lineTo(x+ox*gs,y+oy*gs+(oy?-t:t));
             ctx.closePath();ctx.fill();
           });
         } else {
-          // Empty: subtle dot
-          ctx.fillStyle='rgba(0,0,0,.22)';
-          ctx.beginPath();
-          ctx.arc(x+gs/2,y+gs/2,gs*.16,0,Math.PI*2);
-          ctx.fill();
+          // Empty: green dot
+          ctx.fillStyle='rgba(0,160,0,.28)';
+          ctx.beginPath();ctx.arc(x+gs/2,y+gs/2,gs*.16,0,Math.PI*2);ctx.fill();
+          ctx.fillStyle='rgba(0,180,0,.18)';
+          ctx.beginPath();ctx.arc(x+gs/2,y+gs/2,gs*.12,0,Math.PI*2);ctx.fill();
         }
       }
-
-      // ── Draw piece ──
+      // Piece
       const piece=b[r][c];
       if(piece){
         if(gameState.dragging&&gameState.dragSq&&gameState.dragSq[0]===r&&gameState.dragSq[1]===c) continue;
@@ -2085,42 +2527,21 @@ function drawBoard(){
       }
     }
   }
-
-  // ── Dragged piece (float above board) ──
+  // Dragged piece
   if(gameState.dragging&&gameState.dragPos&&gameState.dragPiece){
-    drawPiece(ctx,gameState.dragPiece,gameState.dragPos.x,gameState.dragPos.y,gs*1.1);
-  }
-
-  // ── Coordinates ──
-  drawCoords(ctx,gs,flip);
-}
-
-function drawCoords(ctx,gs,flip){
-  ctx.font=`bold ${gs*.18}px Nunito,sans-serif`;
-  ctx.textBaseline='top';
-  for(let i=0;i<8;i++){
-    const c=flip?7-i:i;
-    const r=flip?i:7-i;
-    // file letter bottom-right of bottom rank
-    ctx.fillStyle=(i+7)%2===0?DARK:LIGHT;
-    ctx.textAlign='right';
-    ctx.fillText(FILES[c],(i+1)*gs-3,7*gs+gs*.6);
-    // rank number top-left of left file
-    ctx.textAlign='left';
-    ctx.fillStyle=(r+0)%2===0?DARK:LIGHT;
-    ctx.fillText(8-r,3,i*gs+3);
+    drawPiece(ctx,gameState.dragPiece,gameState.dragPos.x,gameState.dragPos.y,gs*1.12);
   }
 }
+
+function drawCoords(){} // now handled inside drawBoard
 
 function resizeCanvas(){
   const canvas=getCanvas(); if(!canvas)return;
   const container=canvas.parentElement;
   let maxSize;
   if(isFullscreen){
-    // In fullscreen, size board to available height minus player bars
-    const layout=document.getElementById('game-layout');
-    const availH=window.innerHeight-56; // minus nav
-    maxSize=Math.min(container.clientWidth, availH-130); // 130 for the two player bars
+    const availH=window.innerHeight-56;
+    maxSize=Math.min(container.clientWidth,availH-130);
   } else {
     maxSize=Math.min(container.clientWidth,560);
   }
@@ -2138,7 +2559,8 @@ function canvasToSquare(e){
   if(e.touches){cx=(e.touches[0].clientX-rect.left)*scaleX;cy=(e.touches[0].clientY-rect.top)*scaleY;}
   else{cx=(e.clientX-rect.left)*scaleX;cy=(e.clientY-rect.top)*scaleY;}
   const gs=getSqSize();
-  const ci=Math.floor(cx/gs), ri=Math.floor(cy/gs);
+  const bdr=getBdr();
+  const ci=Math.floor((cx-bdr)/gs), ri=Math.floor((cy-bdr)/gs);
   if(ci<0||ci>7||ri<0||ri>7)return null;
   const r=boardFlipped?7-ri:ri, c=boardFlipped?7-ci:ci;
   return[r,c];
